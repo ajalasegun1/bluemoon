@@ -1,15 +1,45 @@
-import React from 'react';
+import React, {useContext, useEffect, useLayoutEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../screens/Login';
 import Home from '../screens/Home';
-const Stack = createNativeStackNavigator();
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {RootStackParamList} from './types';
+import AppContext from '../context/AppContext';
+import AddInventory from '../screens/AddInventory';
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export const RootStack = () => (
-  <NavigationContainer>
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Home" component={Home} />
-    </Stack.Navigator>
-  </NavigationContainer>
-);
+export const RootStack = () => {
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const {user, setUser} = useContext(AppContext);
+  console.log({user});
+
+  useLayoutEffect(() => {
+    (async () => {
+      const loggedIn = await AsyncStorage.getItem('user');
+      if (loggedIn !== null) {
+        setUser(JSON.parse(loggedIn));
+        console.log({user: JSON.parse(loggedIn)});
+        console.log('Logged in');
+      } else {
+        console.log('Not logged in');
+        setUser(null);
+        // setLoggedIn(false);
+      }
+    })();
+  }, []);
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        {!user ? (
+          <Stack.Screen name="Login" component={Login} />
+        ) : (
+          <>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="AddInventory" component={AddInventory} />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};

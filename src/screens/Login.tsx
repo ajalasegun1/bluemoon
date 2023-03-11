@@ -1,5 +1,5 @@
 import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, FC, useContext} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomButton from '../components/CustomButton';
 import Vgap from '../components/Vgap';
@@ -7,6 +7,10 @@ import {useForm, Controller} from 'react-hook-form';
 import {LoginDataType} from './types';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import handleLogin from '../helper/login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {LoginScreenProps} from '../navigation/types';
+import AppContext from '../context/AppContext';
 
 const schema = yup
   .object({
@@ -18,10 +22,12 @@ const schema = yup
   })
   .required();
 
-const Login = () => {
+const Login: FC<LoginScreenProps> = ({navigation}) => {
+  const {setUser} = useContext(AppContext);
   const {
     control,
     handleSubmit,
+    reset,
     formState: {errors},
   } = useForm({
     resolver: yupResolver(schema),
@@ -31,9 +37,30 @@ const Login = () => {
     },
   });
 
-  const onSubmit = (data: LoginDataType) => console.log(data);
+  const onSubmit = async (data: LoginDataType) => {
+    // Save to asycstorage
+    const result = await handleLogin(data);
+    if (result) {
+      // save to context
+      setUser(data);
+      reset();
+    } else {
+      console.log('Something WENT WRONG');
+    }
+  };
 
-  console.log({errors});
+  useEffect(() => {
+    (async () => {
+      try {
+        const loggedIn = await AsyncStorage.getItem('user');
+        if (loggedIn !== null) {
+          console.log({user: JSON.parse(loggedIn)});
+        }
+      } catch (error) {
+        console.log({error});
+      }
+    })();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
