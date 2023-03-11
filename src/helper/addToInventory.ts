@@ -10,6 +10,10 @@ const addToInventory = async (
   try {
     const storeInventory = await AsyncStorage.getItem('inventory');
     if (storeInventory !== null) {
+      const inventory = JSON.parse(storeInventory);
+      inventory.push(data);
+      await AsyncStorage.setItem('inventory', JSON.stringify(inventory));
+      return inventory;
     } else {
       await AsyncStorage.setItem('inventory', JSON.stringify([data]));
       return [data];

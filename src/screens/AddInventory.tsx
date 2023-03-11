@@ -11,6 +11,8 @@ import addToInventory from '../helper/addToInventory';
 import {InventoryType} from '../helper/types';
 import {Inventory} from '../context/types';
 import {AddStackScreenProps} from '../navigation/types';
+import Toast from 'react-native-simple-toast';
+import checkAvailability from '../helper/checkAvailability';
 
 const schema = yup
   .object({
@@ -32,7 +34,7 @@ const schema = yup
   .required();
 
 const AddInventory: FC<AddStackScreenProps> = ({navigation}) => {
-  const {user, setInventory} = useContext(AppContext);
+  const {user, setInventory, inventory} = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -51,6 +53,12 @@ const AddInventory: FC<AddStackScreenProps> = ({navigation}) => {
 
   const onSubmit = async (data: InventoryType) => {
     try {
+      const exists = checkAvailability(inventory, data.name);
+      console.log({exists});
+      if (exists) {
+        Toast.show('Item already exists', 2000);
+        return;
+      }
       const res = await handleAdd(data);
       if (res) {
         setInventory(res);
