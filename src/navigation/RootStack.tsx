@@ -20,12 +20,12 @@ export const RootStack = () => {
 
       if (loggedIn !== null) {
         setUser(JSON.parse(loggedIn));
-        setInventory(JSON.parse(inventory));
+        setInventory(JSON.parse(inventory as any));
       } else {
         setUser(null);
       }
     })();
-  }, [setUser]);
+  }, [setUser, setInventory]);
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
