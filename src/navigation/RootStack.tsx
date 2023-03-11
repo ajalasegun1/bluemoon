@@ -11,13 +11,16 @@ import EditInventory from '../screens/EditInventory';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootStack = () => {
-  const {user, setUser} = useContext(AppContext);
+  const {user, setUser, setInventory} = useContext(AppContext);
 
   useLayoutEffect(() => {
     (async () => {
       const loggedIn = await AsyncStorage.getItem('user');
+      const inventory = await AsyncStorage.getItem('inventory');
+
       if (loggedIn !== null) {
         setUser(JSON.parse(loggedIn));
+        setInventory(JSON.parse(inventory));
       } else {
         setUser(null);
       }
