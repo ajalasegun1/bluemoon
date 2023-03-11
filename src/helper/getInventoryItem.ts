@@ -5,7 +5,6 @@ const getInventoryItem = (inventory: Inventory[] | null, name: string) => {
     const filter = inventory.filter(
       item => item.name.toLocaleLowerCase() === name.toLocaleLowerCase(),
     );
-    console.log({filter});
     if (filter.length > 0) {
       return filter[0];
     }

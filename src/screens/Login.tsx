@@ -1,5 +1,5 @@
 import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
-import React, {useEffect, FC, useContext} from 'react';
+import React, {FC, useContext} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomButton from '../components/CustomButton';
 import Vgap from '../components/Vgap';
@@ -8,7 +8,6 @@ import {LoginDataType} from './types';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import handleLogin from '../helper/login';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LoginScreenProps} from '../navigation/types';
 import AppContext from '../context/AppContext';
 
@@ -22,7 +21,7 @@ const schema = yup
   })
   .required();
 
-const Login: FC<LoginScreenProps> = ({navigation}) => {
+const Login: FC<LoginScreenProps> = () => {
   const {setUser} = useContext(AppContext);
   const {
     control,
@@ -48,19 +47,6 @@ const Login: FC<LoginScreenProps> = ({navigation}) => {
       console.log('Something WENT WRONG');
     }
   };
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const loggedIn = await AsyncStorage.getItem('user');
-        if (loggedIn !== null) {
-          console.log({user: JSON.parse(loggedIn)});
-        }
-      } catch (error) {
-        console.log({error});
-      }
-    })();
-  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

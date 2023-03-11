@@ -1,3 +1,4 @@
+import React from 'react';
 import {createContext, ReactNode, useState, FC} from 'react';
 import {User, Inventory, AppContextType} from './types';
 const defaultState: AppContextType = {

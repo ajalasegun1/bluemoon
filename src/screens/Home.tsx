@@ -6,13 +6,11 @@ import handleLogout from '../helper/logout';
 import {HomeScreenProps} from '../navigation/types';
 import AppContext from '../context/AppContext';
 import AddIcon from '../assets/svgs/add.svg';
-import EditIcon from '../assets/svgs/edit.svg';
 import {Inventory} from '../context/types';
 import {COLORS} from '../constants/theme';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home: FC<HomeScreenProps> = ({navigation}) => {
-  const {setUser, inventory, user, setInventory} = useContext(AppContext);
+  const {setUser, inventory, user} = useContext(AppContext);
   const [data, setData] = useState<Inventory[] | null>([]);
 
   const logout = async () => {
@@ -25,35 +23,20 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
   };
   const goToAddScreen = () => navigation.navigate('AddInventory');
 
-  const EditButton: FC<{cellData: any; index: any}> = ({cellData, index}) => {
-    return (
-      <TouchableOpacity style={styles.editButton}>
-        <EditIcon width={20} height={20} />
-      </TouchableOpacity>
-    );
-  };
   useEffect(() => {
-    console.log({inventory});
     if (inventory && inventory.length > 0 && user?.email) {
       const filter = inventory.filter(item => item.email === user.email);
       setData(filter);
     } else {
-      console.log('empty');
       setData(null);
     }
-  }, [inventory]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     setInventory(null);
-  //     AsyncStorage.removeItem('inventory');
-  //   })();
-  // }, []);
+  }, [inventory, user?.email]);
 
   const renderItem = ({item, index}: {item: Inventory; index: number}) => (
     <TouchableOpacity
       style={styles.tableRow}
-      onPress={() => goToEdit(item.name)}>
+      onPress={() => goToEdit(item.name)}
+      key={index.toString()}>
       <View style={styles.cellStyle2}>
         <Text>{item.name}</Text>
       </View>
@@ -113,14 +96,15 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.tableContainer}></View>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        style={styles.flat}
-        ListHeaderComponent={TableHeader}
-        ListEmptyComponent={renderEmpty}
-      />
+      <View style={styles.tableContainer}>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          style={styles.flat}
+          ListHeaderComponent={TableHeader}
+          ListEmptyComponent={renderEmpty}
+        />
+      </View>
 
       <CustomButton label="Logout" onPress={logout} />
     </SafeAreaView>
@@ -152,9 +136,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   tableContainer: {
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     marginTop: 20,
     marginBottom: 40,
+    flex: 1,
   },
 
   editButton: {

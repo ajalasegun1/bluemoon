@@ -11,12 +11,10 @@ const deleteInventory = async (name: string): Promise<ReturnType> => {
       const index = inventory.findIndex(
         (item: Inventory) => item.name === name,
       );
-      console.log({index});
       inventory.splice(index, 1);
       await AsyncStorage.setItem('inventory', JSON.stringify(inventory));
       return inventory;
     } else {
-      console.log('It is null');
       return null;
     }
   } catch (error) {

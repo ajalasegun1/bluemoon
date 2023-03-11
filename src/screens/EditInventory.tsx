@@ -14,10 +14,8 @@ import * as yup from 'yup';
 import Vgap from '../components/Vgap';
 import CustomButton from '../components/CustomButton';
 import AppContext from '../context/AppContext';
-import addToInventory from '../helper/addToInventory';
 import {InventoryType} from '../helper/types';
-import {Inventory} from '../context/types';
-import {AddStackScreenProps, EditStackScreenProps} from '../navigation/types';
+import {EditStackScreenProps} from '../navigation/types';
 import Toast from 'react-native-simple-toast';
 import checkAvailability from '../helper/checkAvailability';
 import getInventoryItem from '../helper/getInventoryItem';
@@ -83,7 +81,7 @@ const EditInventory: FC<EditStackScreenProps> = ({navigation, route}) => {
     }
   };
 
-  const handleDelete = async (name: string) => {
+  const handleDelete = async () => {
     try {
       const res = await deleteInventory(name);
       if (res || null) {
@@ -104,7 +102,7 @@ const EditInventory: FC<EditStackScreenProps> = ({navigation, route}) => {
         price: item.price.toString(),
       });
     }
-  }, [name]);
+  }, [name, reset, inventory]);
 
   const deleteAlert = () => {
     Alert.alert(
@@ -117,7 +115,7 @@ const EditInventory: FC<EditStackScreenProps> = ({navigation, route}) => {
         },
         {
           text: 'Yes, Delete It!',
-          onPress: () => handleDelete(name),
+          onPress: () => handleDelete(),
         },
       ],
     );

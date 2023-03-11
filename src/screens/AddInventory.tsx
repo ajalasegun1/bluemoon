@@ -54,7 +54,6 @@ const AddInventory: FC<AddStackScreenProps> = ({navigation}) => {
   const onSubmit = async (data: InventoryType) => {
     try {
       const exists = checkAvailability(inventory, data.name);
-      console.log({exists});
       if (exists) {
         Toast.show('Item already exists', 2000);
         return;
@@ -82,8 +81,6 @@ const AddInventory: FC<AddStackScreenProps> = ({navigation}) => {
       }
     } catch (error) {}
   };
-
-  console.log({errors});
 
   return (
     <SafeAreaView style={styles.container}>

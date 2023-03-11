@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useLayoutEffect, useState} from 'react';
+import React, {useContext, useLayoutEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../screens/Login';
@@ -11,24 +11,18 @@ import EditInventory from '../screens/EditInventory';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootStack = () => {
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const {user, setUser} = useContext(AppContext);
-  console.log({user});
 
   useLayoutEffect(() => {
     (async () => {
       const loggedIn = await AsyncStorage.getItem('user');
       if (loggedIn !== null) {
         setUser(JSON.parse(loggedIn));
-        console.log({user: JSON.parse(loggedIn)});
-        console.log('Logged in');
       } else {
-        console.log('Not logged in');
         setUser(null);
-        // setLoggedIn(false);
       }
     })();
-  }, []);
+  }, [setUser]);
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>

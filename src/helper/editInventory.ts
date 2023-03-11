@@ -15,13 +15,12 @@ const editInventory = async (
       const index = inventory.findIndex(
         (item: Inventory) => item.name === oldName,
       );
-      console.log({index});
       inventory.splice(index, 1, data);
       await AsyncStorage.setItem('inventory', JSON.stringify(inventory));
 
       return inventory;
     } else {
-      console.log('It is null');
+      return null;
     }
   } catch (error) {
     console.log(error);

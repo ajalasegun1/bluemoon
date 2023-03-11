@@ -5,7 +5,6 @@ const checkAvailability = (data: Inventory[] | null, name: string) => {
     const result = data.filter(
       item => item.name.toLocaleLowerCase() === name.toLocaleLowerCase(),
     );
-    console.log({avaiala: result});
     if (result.length > 0) {
       return true;
     }

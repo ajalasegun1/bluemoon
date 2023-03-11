@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React, {FC} from 'react';
 import {COLORS} from '../constants/theme';
 type Props = {
@@ -6,7 +6,11 @@ type Props = {
   label: string;
   primary?: boolean;
 };
+
 const CustomButton: FC<Props> = ({label, onPress, primary}) => {
+  const textStyle = {
+    color: primary ? 'white' : 'black',
+  };
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -15,9 +19,7 @@ const CustomButton: FC<Props> = ({label, onPress, primary}) => {
         {backgroundColor: primary ? COLORS.primary : COLORS.neutral},
         styles.button,
       ]}>
-      <Text style={[styles.text, {color: primary ? 'white' : 'black'}]}>
-        {label}
-      </Text>
+      <Text style={[styles.text, textStyle]}>{label}</Text>
     </TouchableOpacity>
   );
 };

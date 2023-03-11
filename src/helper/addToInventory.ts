@@ -18,7 +18,6 @@ const addToInventory = async (
       await AsyncStorage.setItem('inventory', JSON.stringify([data]));
       return [data];
     }
-    return null;
   } catch (error) {
     console.log(error);
   }
