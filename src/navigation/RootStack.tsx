@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RootStackParamList} from './types';
 import AppContext from '../context/AppContext';
 import AddInventory from '../screens/AddInventory';
+import EditInventory from '../screens/EditInventory';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootStack = () => {
@@ -37,6 +38,7 @@ export const RootStack = () => {
           <>
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="AddInventory" component={AddInventory} />
+            <Stack.Screen name="EditInventory" component={EditInventory} />
           </>
         )}
       </Stack.Navigator>

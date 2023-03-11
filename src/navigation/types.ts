@@ -6,6 +6,7 @@ export type RootStackParamList = {
   Holder: undefined;
   AuthStack: undefined;
   AddInventory: undefined;
+  EditInventory: {name: string};
 };
 
 export type HomeScreenProps = NativeStackScreenProps<
@@ -29,4 +30,8 @@ export type AuthStackScreenProps = NativeStackScreenProps<
 export type AddStackScreenProps = NativeStackScreenProps<
   RootStackParamList,
   'AddInventory'
+>;
+export type EditStackScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'EditInventory'
 >;

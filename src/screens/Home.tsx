@@ -14,8 +14,6 @@ import {COLORS} from '../constants/theme';
 const Home: FC<HomeScreenProps> = ({navigation}) => {
   const {setUser, inventory, user, setInventory} = useContext(AppContext);
   const [data, setData] = useState<Inventory[] | null>([]);
-  const dataHead = ['Name', 'Desc', 'Total', 'Price'];
-  const [tableData, setTableData] = useState<[string[]] | []>([]);
 
   const logout = async () => {
     const res = await handleLogout();
@@ -38,22 +36,8 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
     console.log({inventory});
     if (inventory && inventory.length > 0 && user?.email) {
       const filter = inventory.filter(item => item.email === user.email);
-
-      const res = filter.map(item => {
-        const arr = [];
-        arr.push(item.name);
-        arr.push(item.desc);
-        arr.push(item.total.toString());
-        arr.push(item.price.toString());
-
-        return arr;
-      });
-      const result = res;
-      // @ts-ignore
-      setTableData(result);
+      setData(filter);
     }
-
-    setData(inventory);
   }, [inventory]);
 
   // useEffect(() => {
@@ -66,7 +50,7 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
   const renderItem = ({item, index}: {item: Inventory; index: number}) => (
     <TouchableOpacity
       style={styles.tableRow}
-      onPress={() => console.log({name: item.name})}>
+      onPress={() => goToEdit(item.name)}>
       <View style={styles.cellStyle2}>
         <Text>{item.name}</Text>
       </View>
@@ -107,6 +91,10 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
         </View>
       </View>
     );
+  };
+
+  const goToEdit = (name: string) => {
+    navigation.navigate('EditInventory', {name});
   };
   return (
     <SafeAreaView style={styles.container}>
