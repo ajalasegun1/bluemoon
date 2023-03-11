@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login Screen Snapshot 1`] = `
+<RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <RCTScrollView
+    bounces={false}
+    keyboardShouldPersistTaps="always"
+    style={
+      Object {
+        "flex": 1,
+        "padding": 16,
+      }
+    }
+  >
+    <View>
+      <Text
+        style={
+          Object {
+            "fontSize": 32,
+            "fontWeight": "bold",
+            "textAlign": "center",
+          }
+        }
+      >
+        Welcome
+      </Text>
+      <View
+        style={
+          Object {
+            "marginTop": 100,
+          }
+        }
+      >
+        <TextInput
+          onBlur={[Function]}
+          onChangeText={[Function]}
+          placeholder="Email"
+          style={
+            Object {
+              "backgroundColor": "white",
+              "borderRadius": 8,
+              "paddingLeft": 10,
+            }
+          }
+          value=""
+        />
+        <View
+          style={
+            Object {
+              "height": 20,
+            }
+          }
+        />
+        <TextInput
+          onBlur={[Function]}
+          onChangeText={[Function]}
+          placeholder="Password"
+          style={
+            Object {
+              "backgroundColor": "white",
+              "borderRadius": 8,
+              "paddingLeft": 10,
+            }
+          }
+          value=""
+        />
+        <View
+          style={
+            Object {
+              "height": 100,
+            }
+          }
+        />
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#279AF1",
+              "borderRadius": 8,
+              "height": 50,
+              "justifyContent": "center",
+              "opacity": 1,
+              "width": "100%",
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontWeight": "600",
+                  "textTransform": "uppercase",
+                },
+                Object {
+                  "color": "white",
+                },
+              ]
+            }
+          >
+            Login
+          </Text>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RNCSafeAreaView>
+`;
