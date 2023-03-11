@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC, useContext, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomButton from '../components/CustomButton';
@@ -6,12 +6,14 @@ import handleLogout from '../helper/logout';
 import {HomeScreenProps} from '../navigation/types';
 import AppContext from '../context/AppContext';
 import AddIcon from '../assets/svgs/add.svg';
-import {Table, Row, Rows} from 'react-native-table-component';
-import {InventoryType} from '../helper/types';
+import EditIcon from '../assets/svgs/edit.svg';
+import {Inventory} from '../context/types';
+import {COLORS} from '../constants/theme';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home: FC<HomeScreenProps> = ({navigation}) => {
-  const {setUser, inventory, user} = useContext(AppContext);
-  const [data, setData] = useState<InventoryType[]>([]);
+  const {setUser, inventory, user, setInventory} = useContext(AppContext);
+  const [data, setData] = useState<Inventory[] | null>([]);
   const dataHead = ['Name', 'Desc', 'Total', 'Price'];
   const [tableData, setTableData] = useState<[string[]] | []>([]);
 
@@ -24,6 +26,14 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
     }
   };
   const goToAddScreen = () => navigation.navigate('AddInventory');
+
+  const EditButton: FC<{cellData: any; index: any}> = ({cellData, index}) => {
+    return (
+      <TouchableOpacity style={styles.editButton}>
+        <EditIcon width={20} height={20} />
+      </TouchableOpacity>
+    );
+  };
   useEffect(() => {
     console.log({inventory});
     if (inventory && inventory.length > 0 && user?.email) {
@@ -39,11 +49,65 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
         return arr;
       });
       const result = res;
-      console.log({result: [...result]});
       // @ts-ignore
       setTableData(result);
     }
+
+    setData(inventory);
   }, [inventory]);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     setInventory(null);
+  //     AsyncStorage.removeItem('inventory');
+  //   })();
+  // }, []);
+
+  const renderItem = ({item, index}: {item: Inventory; index: number}) => (
+    <TouchableOpacity
+      style={styles.tableRow}
+      onPress={() => console.log({name: item.name})}>
+      <View style={styles.cellStyle2}>
+        <Text>{item.name}</Text>
+      </View>
+      <View style={styles.cellStyle2}>
+        <Text>{item.desc}</Text>
+      </View>
+      <View style={styles.cellStyle2}>
+        <Text>{item.total}</Text>
+      </View>
+      <View style={styles.cellStyle2}>
+        <Text>{item.price}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const renderEmpty = () => {
+    return (
+      <View style={styles.empty}>
+        <Text>Your inventory is empty</Text>
+      </View>
+    );
+  };
+
+  const TableHeader = () => {
+    return (
+      <View style={[styles.tableHeader, {backgroundColor: COLORS.primary}]}>
+        <View style={styles.cellStyle}>
+          <Text style={styles.hText}>Name</Text>
+        </View>
+        <View style={styles.cellStyle}>
+          <Text style={styles.hText}>Desc</Text>
+        </View>
+        <View style={styles.cellStyle}>
+          <Text style={styles.hText}>Total</Text>
+        </View>
+        <View style={styles.cellStyle}>
+          <Text style={styles.hText}>Price</Text>
+        </View>
+      </View>
+    );
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -58,18 +122,14 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.tableContainer}>
-        {data && (
-          <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-            <Row
-              data={dataHead}
-              style={styles.tableHead}
-              textStyle={styles.tableText}
-            />
-            <Rows data={tableData} textStyle={styles.tableText} />
-          </Table>
-        )}
-      </View>
+      <View style={styles.tableContainer}></View>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        style={styles.flat}
+        ListHeaderComponent={TableHeader}
+        ListEmptyComponent={renderEmpty}
+      />
 
       <CustomButton label="Logout" onPress={logout} />
     </SafeAreaView>
@@ -105,6 +165,42 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 40,
   },
-  tableHead: {height: 40, backgroundColor: '#f1f8ff'},
-  tableText: {margin: 6},
+
+  editButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'green',
+  },
+  flat: {
+    // backgroundColor: 'red',
+  },
+  tableRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  tableHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  cellStyle: {
+    padding: 7,
+    flex: 1,
+  },
+  cellStyle2: {
+    padding: 7,
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  hText: {
+    fontWeight: '700',
+    color: 'white',
+  },
+  empty: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 30,
+  },
 });
