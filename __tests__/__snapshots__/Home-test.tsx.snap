@@ -1,0 +1,257 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home Screen Snapshot 1`] = `
+<RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
+  style={
+    Object {
+      "flex": 1,
+      "padding": 16,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "fontSize": 30,
+          "fontWeight": "900",
+        }
+      }
+    >
+      Bluemoon 
+      <Text
+        style={
+          Object {
+            "fontSize": 16,
+            "fontWeight": "500",
+          }
+        }
+      >
+        Inventory
+      </Text>
+    </Text>
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "white",
+          "borderRadius": 50,
+          "opacity": 1,
+          "padding": 10,
+        }
+      }
+    >
+      <svg
+        data-file-name="SvgAdd"
+        height={20}
+        width={20}
+      />
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "marginBottom": 40,
+        "marginTop": 20,
+      }
+    }
+  >
+    <RCTScrollView
+      ListEmptyComponent={[Function]}
+      ListHeaderComponent={[Function]}
+      data={Array []}
+      getItem={[Function]}
+      getItemCount={[Function]}
+      keyExtractor={[Function]}
+      onContentSizeChange={[Function]}
+      onLayout={[Function]}
+      onMomentumScrollBegin={[Function]}
+      onMomentumScrollEnd={[Function]}
+      onScroll={[Function]}
+      onScrollBeginDrag={[Function]}
+      onScrollEndDrag={[Function]}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      stickyHeaderIndices={Array []}
+      viewabilityConfigCallbackPairs={Array []}
+    >
+      <View>
+        <View
+          onLayout={[Function]}
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "space-evenly",
+                },
+                Object {
+                  "backgroundColor": "#279AF1",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "padding": 7,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "white",
+                    "fontWeight": "700",
+                  }
+                }
+              >
+                Name
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "padding": 7,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "white",
+                    "fontWeight": "700",
+                  }
+                }
+              >
+                Desc
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "padding": 7,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "white",
+                    "fontWeight": "700",
+                  }
+                }
+              >
+                Total
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "padding": 7,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "white",
+                    "fontWeight": "700",
+                  }
+                }
+              >
+                Price
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "white",
+              "justifyContent": "center",
+              "padding": 30,
+            }
+          }
+        >
+          <Text>
+            Your inventory is empty
+          </Text>
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+  <View
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#BFC0C0",
+        "borderRadius": 8,
+        "height": 50,
+        "justifyContent": "center",
+        "opacity": 1,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "fontWeight": "600",
+            "textTransform": "uppercase",
+          },
+          Object {
+            "color": "black",
+          },
+        ]
+      }
+    >
+      Logout
+    </Text>
+  </View>
+</RNCSafeAreaView>
+`;

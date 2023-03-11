@@ -14,11 +14,15 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
   const [data, setData] = useState<Inventory[] | null>([]);
 
   const logout = async () => {
-    const res = await handleLogout();
-    if (res) {
-      setUser(null);
-    } else {
-      console.log('Something went wrong');
+    try {
+      const success = await handleLogout();
+      if (success) {
+        setUser(null);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      // console.log({error});
     }
   };
   const goToAddScreen = () => navigation.navigate('AddInventory');
@@ -100,7 +104,6 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
         <FlatList
           data={data}
           renderItem={renderItem}
-          style={styles.flat}
           ListHeaderComponent={TableHeader}
           ListEmptyComponent={renderEmpty}
         />
@@ -136,7 +139,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   tableContainer: {
-    // backgroundColor: 'white',
     marginTop: 20,
     marginBottom: 40,
     flex: 1,
@@ -146,9 +148,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'green',
-  },
-  flat: {
-    // backgroundColor: 'red',
   },
   tableRow: {
     flexDirection: 'row',
