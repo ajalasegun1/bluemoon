@@ -1,4 +1,11 @@
-import {ScrollView, StyleSheet, Text, View, TextInput} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Alert,
+} from 'react-native';
 import React, {FC, useContext, useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useForm, Controller} from 'react-hook-form';
@@ -15,6 +22,7 @@ import Toast from 'react-native-simple-toast';
 import checkAvailability from '../helper/checkAvailability';
 import getInventoryItem from '../helper/getInventoryItem';
 import editInventory from '../helper/editInventory';
+import deleteInventory from '../helper/deleteInventory';
 
 const schema = yup
   .object({
@@ -75,6 +83,18 @@ const EditInventory: FC<EditStackScreenProps> = ({navigation, route}) => {
     }
   };
 
+  const handleDelete = async (name: string) => {
+    try {
+      const res = await deleteInventory(name);
+      if (res || null) {
+        // Cuz the inventory can also be null
+        setInventory(res);
+        reset();
+        navigation.pop();
+      }
+    } catch (error) {}
+  };
+
   useEffect(() => {
     const item = getInventoryItem(inventory, name);
     if (item) {
@@ -85,6 +105,23 @@ const EditInventory: FC<EditStackScreenProps> = ({navigation, route}) => {
       });
     }
   }, [name]);
+
+  const deleteAlert = () => {
+    Alert.alert(
+      `Delete ${name}`,
+      'Are you sure you want to delete this item from your inventory?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Yes, Delete It!',
+          onPress: () => handleDelete(name),
+        },
+      ],
+    );
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scroll}>
@@ -176,6 +213,8 @@ const EditInventory: FC<EditStackScreenProps> = ({navigation, route}) => {
             primary
             onPress={handleSubmit(onSubmit)}
           />
+          <Vgap size={20} />
+          <CustomButton label="Delete Inventory" onPress={deleteAlert} />
         </View>
       </ScrollView>
     </SafeAreaView>

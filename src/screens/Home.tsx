@@ -37,6 +37,9 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
     if (inventory && inventory.length > 0 && user?.email) {
       const filter = inventory.filter(item => item.email === user.email);
       setData(filter);
+    } else {
+      console.log('empty');
+      setData(null);
     }
   }, [inventory]);
 
