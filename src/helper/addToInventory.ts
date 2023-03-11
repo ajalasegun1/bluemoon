@@ -1,9 +1,23 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {InventoryType} from './types';
+import {Inventory} from '../context/types';
 
-const addToInventory = async (data: InventoryType) => {
+type ReturnType = Inventory[] | null;
+
+const addToInventory = async (
+  data: InventoryType,
+): Promise<ReturnType | undefined> => {
   try {
-    // a
-  } catch (error) {}
+    const storeInventory = await AsyncStorage.getItem('inventory');
+    if (storeInventory !== null) {
+    } else {
+      await AsyncStorage.setItem('inventory', JSON.stringify([data]));
+      return [data];
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default addToInventory;

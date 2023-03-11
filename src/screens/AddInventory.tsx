@@ -1,5 +1,5 @@
 import {ScrollView, StyleSheet, Text, View, TextInput} from 'react-native';
-import React, {useContext} from 'react';
+import React, {FC, useContext} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -7,6 +7,10 @@ import * as yup from 'yup';
 import Vgap from '../components/Vgap';
 import CustomButton from '../components/CustomButton';
 import AppContext from '../context/AppContext';
+import addToInventory from '../helper/addToInventory';
+import {InventoryType} from '../helper/types';
+import {Inventory} from '../context/types';
+import {AddStackScreenProps} from '../navigation/types';
 
 const schema = yup
   .object({
@@ -27,8 +31,8 @@ const schema = yup
   })
   .required();
 
-const AddInventory = () => {
-  const {user} = useContext(AppContext);
+const AddInventory: FC<AddStackScreenProps> = ({navigation}) => {
+  const {user, setInventory} = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -41,21 +45,34 @@ const AddInventory = () => {
       total: '',
       price: '',
       desc: '',
-      email: user?.email,
+      email: user ? user?.email : '',
     },
   });
 
-  const onSubmit = async (data: any) => {
-    console.log({data});
-    // Save to asycstorage
-    // const result = await handleLogin(data);
-    // if (result) {
-    //   // save to context
-    //   setUser(data);
-    //   reset();
-    // } else {
-    //   console.log('Something WENT WRONG');
-    // }
+  const onSubmit = async (data: InventoryType) => {
+    try {
+      const res = await handleAdd(data);
+      if (res) {
+        setInventory(res);
+        reset();
+        navigation.pop();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleAdd = async (
+    data: InventoryType,
+  ): Promise<Inventory[] | undefined> => {
+    try {
+      const res = await addToInventory(data);
+      if (res) {
+        return res;
+      } else {
+        return undefined;
+      }
+    } catch (error) {}
   };
 
   console.log({errors});

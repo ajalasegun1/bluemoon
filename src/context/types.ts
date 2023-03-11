@@ -5,8 +5,8 @@ export type User = {
 
 export type Inventory = {
   name: string;
-  total: number;
-  price: number;
+  total: string;
+  price: string;
   desc: string;
   email: string;
 };

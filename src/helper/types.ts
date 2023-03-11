@@ -1,7 +1,7 @@
 export type InventoryType = {
   name: string;
-  total: number;
-  price: number;
+  total: string;
+  price: string;
   desc: string;
   email: string;
 };
