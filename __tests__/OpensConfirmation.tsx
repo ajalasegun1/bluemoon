@@ -9,7 +9,7 @@ import renderer from 'react-test-renderer';
 import EditInventory from '../src/screens/EditInventory';
 import {Alert} from 'react-native';
 
-test('Confrimation pop up when trying to delete', () => {
+test('Confrimation pop up when trying to delete', async () => {
   let props: {name: string; navigation: any; route: any} = {
     name: 'Water',
     navigation: 'any',
@@ -24,6 +24,6 @@ test('Confrimation pop up when trying to delete', () => {
   const component = rendered.root;
   const button = component.findByProps({label: 'Delete Inventory'});
   const spyAlert = jest.spyOn(Alert, 'alert');
-  button.props.onPress();
-  expect(spyAlert).toBeTruthy();
+  await button.props.onPress();
+  expect(spyAlert).toHaveBeenCalled();
 });

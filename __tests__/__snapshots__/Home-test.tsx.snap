@@ -32,6 +32,7 @@ exports[`Home Screen Snapshot 1`] = `
           "fontWeight": "900",
         }
       }
+      testID="header-text"
     >
       Bluemoon 
       <Text
@@ -84,7 +85,7 @@ exports[`Home Screen Snapshot 1`] = `
     <RCTScrollView
       ListEmptyComponent={[Function]}
       ListHeaderComponent={[Function]}
-      data={null}
+      data={Array []}
       getItem={[Function]}
       getItemCount={[Function]}
       keyExtractor={[Function]}

@@ -1,5 +1,5 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {FC, useContext, useEffect, useState} from 'react';
+import React, {FC, useCallback, useContext, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomButton from '../components/CustomButton';
 import handleLogout from '../helper/logout';
@@ -8,10 +8,18 @@ import AppContext from '../context/AppContext';
 import AddIcon from '../assets/svgs/add.svg';
 import {Inventory} from '../context/types';
 import {COLORS} from '../constants/theme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useFocusEffect} from '@react-navigation/native';
 
 const Home: FC<HomeScreenProps> = ({navigation}) => {
-  const {setUser, inventory, user} = useContext(AppContext);
+  const {setUser, user} = useContext(AppContext);
   const [data, setData] = useState<Inventory[] | null>([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchInventory();
+    }, []),
+  );
 
   const logout = async () => {
     try {
@@ -22,25 +30,31 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
       }
       return false;
     } catch (error) {
-      // console.log({error});
+      console.log({error});
     }
   };
   const goToAddScreen = () => navigation.navigate('AddInventory');
 
-  useEffect(() => {
+  const fetchInventory = useCallback(async () => {
+    // From Async Storage
+    const data = await AsyncStorage.getItem('inventory');
+    const inventory = JSON.parse(data as any);
     if (inventory && inventory.length > 0 && user?.email) {
-      const filter = inventory.filter(item => item.email === user.email);
+      const filter = inventory.filter(
+        (item: Inventory) => item.email === user.email,
+      );
       setData(filter);
     } else {
       setData(null);
     }
-  }, [inventory, user?.email]);
+  }, []);
 
   const renderItem = ({item, index}: {item: Inventory; index: number}) => (
     <TouchableOpacity
       style={styles.tableRow}
       onPress={() => goToEdit(item.name)}
-      key={index.toString()}>
+      key={index.toString()}
+      testID="data-row">
       <View style={styles.cellStyle2}>
         <Text>{item.name}</Text>
       </View>
@@ -89,7 +103,7 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.text}>
+        <Text style={styles.text} testID="header-text">
           Bluemoon <Text style={styles.inv}>Inventory</Text>
         </Text>
         <TouchableOpacity
