@@ -15,10 +15,23 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
   const {setUser, user} = useContext(AppContext);
   const [data, setData] = useState<Inventory[] | null>([]);
 
+  const fetchInventory = useCallback(async () => {
+    // From Async Storage
+    const data2 = await AsyncStorage.getItem('inventory');
+    const inventory = JSON.parse(data2 as any);
+    if (inventory && inventory.length > 0 && user?.email) {
+      const filter = inventory.filter(
+        (item: Inventory) => item.email === user.email,
+      );
+      setData(filter);
+    } else {
+      setData(null);
+    }
+  }, [user?.email]);
   useFocusEffect(
     useCallback(() => {
       fetchInventory();
-    }, []),
+    }, [fetchInventory]),
   );
 
   const logout = async () => {
@@ -34,20 +47,6 @@ const Home: FC<HomeScreenProps> = ({navigation}) => {
     }
   };
   const goToAddScreen = () => navigation.navigate('AddInventory');
-
-  const fetchInventory = useCallback(async () => {
-    // From Async Storage
-    const data = await AsyncStorage.getItem('inventory');
-    const inventory = JSON.parse(data as any);
-    if (inventory && inventory.length > 0 && user?.email) {
-      const filter = inventory.filter(
-        (item: Inventory) => item.email === user.email,
-      );
-      setData(filter);
-    } else {
-      setData(null);
-    }
-  }, []);
 
   const renderItem = ({item, index}: {item: Inventory; index: number}) => (
     <TouchableOpacity

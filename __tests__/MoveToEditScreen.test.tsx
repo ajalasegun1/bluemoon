@@ -1,12 +1,6 @@
 import 'react-native';
 import React from 'react';
-import {
-  render,
-  waitFor,
-  screen,
-  fireEvent,
-  act,
-} from '@testing-library/react-native';
+import {render, screen, act} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Home from '../src/screens/Home';
 import {NavigationContainer} from '@react-navigation/native';
@@ -40,7 +34,7 @@ test('Navigation to edit screen on inventory item click', async () => {
   jest
     .spyOn(AsyncStorage, 'getItem')
     .mockReturnValueOnce(Promise.resolve(mockData));
-  const {getByText, getByTestId} = render(
+  const {getByText} = render(
     <NavigationContainer>
       <Home {...props} />
     </NavigationContainer>,
