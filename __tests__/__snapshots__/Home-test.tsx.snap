@@ -84,7 +84,7 @@ exports[`Home Screen Snapshot 1`] = `
     <RCTScrollView
       ListEmptyComponent={[Function]}
       ListHeaderComponent={[Function]}
-      data={Array []}
+      data={null}
       getItem={[Function]}
       getItemCount={[Function]}
       keyExtractor={[Function]}
