@@ -16,7 +16,6 @@ import CustomButton from '../components/CustomButton';
 import AppContext from '../context/AppContext';
 import {InventoryType} from '../helper/types';
 import {EditStackScreenProps} from '../navigation/types';
-import Toast from 'react-native-simple-toast';
 import checkAvailability from '../helper/checkAvailability';
 import getInventoryItem from '../helper/getInventoryItem';
 import editInventory from '../helper/editInventory';
@@ -63,9 +62,8 @@ const EditInventory: FC<EditStackScreenProps> = ({navigation, route}) => {
   const onSubmit = async (data: InventoryType) => {
     try {
       const exists = checkAvailability(inventory, data.name);
-      console.log({exists});
       if (exists) {
-        Toast.show('Item already exists', 2000);
+        hanldleAlert();
         return;
       }
 
@@ -79,6 +77,10 @@ const EditInventory: FC<EditStackScreenProps> = ({navigation, route}) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const hanldleAlert = () => {
+    Alert.alert('Item already exists!');
   };
 
   const handleDelete = async () => {
@@ -106,7 +108,7 @@ const EditInventory: FC<EditStackScreenProps> = ({navigation, route}) => {
 
   const deleteAlert = () => {
     Alert.alert(
-      `Delete ${name}`,
+      'Delete Inventory',
       'Are you sure you want to delete this item from your inventory?',
       [
         {
@@ -212,7 +214,11 @@ const EditInventory: FC<EditStackScreenProps> = ({navigation, route}) => {
             onPress={handleSubmit(onSubmit)}
           />
           <Vgap size={20} />
-          <CustomButton label="Delete Inventory" onPress={deleteAlert} />
+          <CustomButton
+            label="Delete Inventory"
+            onPress={deleteAlert}
+            testID="delete-button"
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

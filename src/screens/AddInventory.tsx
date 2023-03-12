@@ -1,4 +1,11 @@
-import {ScrollView, StyleSheet, Text, View, TextInput} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Alert,
+} from 'react-native';
 import React, {FC, useContext} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useForm, Controller} from 'react-hook-form';
@@ -11,7 +18,6 @@ import addToInventory from '../helper/addToInventory';
 import {InventoryType} from '../helper/types';
 import {Inventory} from '../context/types';
 import {AddStackScreenProps} from '../navigation/types';
-import Toast from 'react-native-simple-toast';
 import checkAvailability from '../helper/checkAvailability';
 
 const schema = yup
@@ -55,7 +61,7 @@ const AddInventory: FC<AddStackScreenProps> = ({navigation}) => {
     try {
       const exists = checkAvailability(inventory, data.name);
       if (exists) {
-        Toast.show('Item already exists', 2000);
+        handleAlert();
         return;
       }
       const res = await handleAdd(data);
@@ -67,6 +73,10 @@ const AddInventory: FC<AddStackScreenProps> = ({navigation}) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleAlert = () => {
+    Alert.alert('Item already exists!');
   };
 
   const handleAdd = async (

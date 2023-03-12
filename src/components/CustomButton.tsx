@@ -5,9 +5,10 @@ type Props = {
   onPress?: () => void;
   label: string;
   primary?: boolean;
+  testID?: string;
 };
 
-const CustomButton: FC<Props> = ({label, onPress, primary}) => {
+const CustomButton: FC<Props> = ({label, onPress, primary, testID}) => {
   const textStyle = {
     color: primary ? 'white' : 'black',
   };
@@ -15,6 +16,7 @@ const CustomButton: FC<Props> = ({label, onPress, primary}) => {
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.9}
+      testID={testID}
       style={[
         {backgroundColor: primary ? COLORS.primary : COLORS.neutral},
         styles.button,
